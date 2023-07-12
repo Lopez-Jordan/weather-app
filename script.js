@@ -5,30 +5,41 @@ var searchBtnEl = $("#searchBtn");
 var lat;
 var long;
 
-function getLat(name){
-    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead"
-    fetch(url)
-        .then(function(response){
-            return response.json();
+function getLat(name) {
+    return new Promise((resolve, reject) => {
+      var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+      fetch(url)
+        .then(function(response) {
+          return response.json();
         })
-        .then(function(data){
-            lat = data[0].lat;
-            console.log(lat);
-            return lat;
-        });
-}
-function getLon(name){
-    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead"
-    fetch(url)
-        .then(function(response){
-            return response.json();
+        .then(function(data) {
+          var lat = data[0].lat;
+          console.log(lat);
+          resolve(lat);
         })
-        .then(function(data){
-            long = data[0].lon;
-            console.log(long);
-            return long;
+        .catch(function(error) {
+          reject(error);
         });
-}
+    });
+  }
+  
+  function getLon(name) {
+    return new Promise((resolve, reject) => {
+      var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+      fetch(url)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          var lon = data[0].lon;
+          console.log(lon);
+          resolve(lon);
+        })
+        .catch(function(error) {
+          reject(error);
+        });
+    });
+  }
 //MAIN FUNCTIONS ---------------------------------------------------------------------------------
 function renderHistory(name){
     if (name === ""){
@@ -47,16 +58,20 @@ function renderMain(name){
 function renderFiveDay(name){
 }
 
-searchBtnEl.on("click",function(){
+searchBtnEl.on("click", async function() {
     var inputCity = $("#inputCity").val();
-    
-    console.log(getLat(inputCity) + " " + getLon(inputCity));
 
+    var lat = await getLat(inputCity);
+    var lon = await getLon(inputCity);
+    console.log(lat + " " + lon);
 
     renderHistory(inputCity);
     renderMain(inputCity);
     renderFiveDay(inputCity);
-});
+
+
+    
+  });
 
 // on click "search"
     //render history
