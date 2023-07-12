@@ -36,14 +36,14 @@ nav h1{
     padding: 30px;
 }
 
-#tags{
+#inputCity{
     margin-top: 20px;
     padding: 5px;
     border: 2px solid black;
     outline: none;
     font-size: 20px;
 }
-#searchbtn{
+#searchBtn{
     width: 100%;
     margin: 20px 0;
     padding: 5px;
@@ -53,8 +53,20 @@ nav h1{
     letter-spacing: 1px;
     border: 2px solid black;
 }
-#searchbtn:hover{
+#searchBtn:hover{
     background-color: white;
     color: rgb(0, 142, 138);
     transition: 0.25s;
+}
+.historyBtn{
+    width: 100%;
+    background-color: rgba(0, 135, 131, 0.349);
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+    border: none;
+}
+#line{
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
 }
