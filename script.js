@@ -1,10 +1,9 @@
 $(document).ready(function() {
-
-
 // global vars here 
 var searchBtnEl = $("#searchBtn");
 
-
+var lat;
+var long;
 
 function getLat(name){
     var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead"
@@ -13,10 +12,11 @@ function getLat(name){
             return response.json();
         })
         .then(function(data){
-            return data[0].lat;
+            lat = data[0].lat;
+            console.log(lat);
+            return lat;
         });
 }
-
 function getLon(name){
     var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead"
     fetch(url)
@@ -24,12 +24,12 @@ function getLon(name){
             return response.json();
         })
         .then(function(data){
-            return data[0].lon;
+            long = data[0].lon;
+            console.log(long);
+            return long;
         });
 }
-
-
-//MAIN FUNCTIONS ---------------------------
+//MAIN FUNCTIONS ---------------------------------------------------------------------------------
 function renderHistory(name){
     if (name === ""){
         return;
@@ -41,27 +41,22 @@ function renderHistory(name){
         $("#history").append(newEl);
     }
 }
-
-
 function renderMain(name){
     $("#main h2").text(name);
-
-
 }
 function renderFiveDay(name){
-
 }
-
 
 searchBtnEl.on("click",function(){
     var inputCity = $("#inputCity").val();
+    
+    console.log(getLat(inputCity) + " " + getLon(inputCity));
 
-    getLat(inputCity);
+
     renderHistory(inputCity);
     renderMain(inputCity);
     renderFiveDay(inputCity);
 });
-
 
 // on click "search"
     //render history
@@ -69,10 +64,5 @@ searchBtnEl.on("click",function(){
         // save it to local storage
     // render main
     // render 5-day forecast
-
-
-
-
-
 
 });
