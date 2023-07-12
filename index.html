@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
-</head>
+
+  
 <body>
     <nav>
         <h1>Weather Dashboard</h1>
@@ -17,27 +18,24 @@
     <div id="main-body">
         <div id="search">
             <h2>Search for a City:</h2>
+            <input placeholder="ie: San Diego" id="tags">
+            <br>
+            <button id="searchbtn">Search</button>
+            
         </div>
         
         <div id="right-section">
-            
             <div id="main">
                 <h2>City Name + Date</h2>
                 <h4>Temp:</h4>
                 <h4>Wind: </h4>
                 <h4>Humidity: </h4>
-
             </div>
             
             <div id="cards">
-                <h5>5 day forecast</h5>
+                <h3>5 Day Forecast:</h3>
             </div>
-
-
         </div>
-
-
-
     </div>
 
 
@@ -45,6 +43,8 @@
 
 
 </body>
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="./script.js"></script>
 </html>
