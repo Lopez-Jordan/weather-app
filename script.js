@@ -6,7 +6,21 @@ var lat;
 var long;
 
 function displayHistory(){
-
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var data = JSON.parse(localStorage.getItem(key))
+    
+    var newEl = $("<button>");
+    newEl.text(key);
+    newEl.attr("class", "historyBtn");
+    $("#history").append(newEl);
+    newEl.on("click", async function(){
+    $("#genCards").html("");
+    var latitude = await getLat(key);
+    var longitude = await getLon(key);
+    renderMain(key, latitude, longitude);
+        });
+  }
 }
 
 
@@ -25,7 +39,7 @@ function getLat(name) {
           reject(error);
         });
     });
-  }
+}
   
   function getLon(name) {
     return new Promise((resolve, reject) => {
@@ -42,7 +56,8 @@ function getLat(name) {
           reject(error);
         });
     });
-  }
+}
+
 //MAIN FUNCTIONS ---------------------------------------------------------------------------------
 function renderSearch(name, latitude, longitude){
     if (name === ""){
@@ -53,6 +68,11 @@ function renderSearch(name, latitude, longitude){
         newEl.text(name);
         newEl.attr("class", "historyBtn");
         $("#history").append(newEl);
+        newEl.on("click", function(){
+          $("#genCards").html("");
+          renderMain(name, latitude, longitude);
+        });
+
     }
     localStorage.setItem(name, JSON.stringify({lat: latitude, lon: longitude}));
 }
@@ -112,12 +132,6 @@ function renderFiveDay(name, latitude, longitude){
       }
     });
 
-
-  for(var i=0; i<5;i++){
-    // generate card
-    // generate class
-    // append to #genCards
-  }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 searchBtnEl.on("click", async function() {
