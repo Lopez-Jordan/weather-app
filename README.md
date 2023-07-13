@@ -17,4 +17,4 @@ https://openweathermap.org/forecast5
 
 ## Link to Application
 
-[Visit my deployed application!](https://lopez-jordan.github.io/work-day-scheduler/)
+[Visit my deployed application!](https://lopez-jordan.github.io/weather-app/)
