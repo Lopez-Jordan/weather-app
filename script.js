@@ -1,157 +1,157 @@
 $(document).ready(function() {
-// global vars here 
-var searchBtnEl = $("#searchBtn");
-
-var lat;
-var long;
-
-function getLat(name) {
-  return new Promise((resolve, reject) => {
-    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
-    fetch(url)
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        var lat = data[0].lat;
-        resolve(lat);
-      })
-      .catch(function(error) {
-        reject(error);
-      });
-  });
-}
-
-function getLon(name) {
-  return new Promise((resolve, reject) => {
-    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
-    fetch(url)
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        var lon = data[0].lon;
-        resolve(lon);
-      })
-      .catch(function(error) {
-        reject(error);
-      });
-  });
-}
-
-function displayHistory() {
-  for (var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i);
-    var data = JSON.parse(localStorage.getItem(key));
-    
-    (function(key) { // Create a closure for each iteration
-      var newEl = $("<button>");
+  // global vars here 
+  var searchBtnEl = $("#searchBtn");
+  
+  var lat;
+  var long;
+  
+  function displayHistory() {
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      var data = JSON.parse(localStorage.getItem(key));
       
-      newEl.text(key);
-      newEl.attr("class", "historyBtn");
-      $("#history").append(newEl);
-      newEl.on("click", async function() {
-        $("#genCards").html("");
-        console.log("tester");
-        var latitude = await getLat(key);
-        var longitude = await getLon(key);
-        console.log("tester");
-        renderMain(key, latitude, longitude);
-      });
-    })(key); // Pass 'key' as an argument to the IIFE
-  }
-}
-
-
-
-//MAIN FUNCTIONS ---------------------------------------------------------------------------------
-function renderSearch(name, latitude, longitude){
-    if (name === ""){
-        return;
-    }
-    else {
+      (function(key) { // Create a closure for each iteration
         var newEl = $("<button>");
-        newEl.text(name);
+        
+        newEl.text(key);
         newEl.attr("class", "historyBtn");
         $("#history").append(newEl);
-        newEl.on("click", function(){
+        newEl.on("click", async function() {
           $("#genCards").html("");
-          renderMain(name, latitude, longitude);
+          console.log("tester");
+          var latitude = await getLat(key);
+          var longitude = await getLon(key);
+          console.log("tester");
+          renderMain(key, latitude, longitude);
         });
-
+      })(key); // Pass 'key' as an argument to the IIFE
     }
-    localStorage.setItem(name, JSON.stringify({lat: latitude, lon: longitude}));
-}
-function renderMain(name, latitude, longitude){
-    $("#main h2").text(name);
-
-    var url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9bce6875713db412816a04531af13ead&units=imperial";
-    
-    fetch(url)
-        .then(function(response){
+  }
+  
+  
+  function getLat(name) {
+      return new Promise((resolve, reject) => {
+        var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+        fetch(url)
+          .then(function(response) {
             return response.json();
-        })
-        .then(function (data){
-            console.log(data);
-            $("#main h2").text(name +" " + dayjs().format('MM/DD/YY'));
-            $("#main h4").first().text("Temp: "+ data.main.temp + " °f");
-            $("#main h4").eq(1).text("Wind: "+ data.wind.speed + " mph");
-            $("#main h4").eq(2).text("Humidity: "+ data.main.humidity + " %");
-            renderFiveDay(name, latitude, longitude);
-        });
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-function renderFiveDay(name, latitude, longitude){
-  var timeNum = 7;
-  $("#genCards").empty();
-  var url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=9bce6875713db412816a04531af13ead&units=imperial";
-  fetch(url)
-    .then(function (response){
-      return response.json();
-    })
-    .then(function(data){
-      for(var i=1; i<=5;i++){
-        
-        var newCardEl = $("<div>");
-        newCardEl.attr("class","cardElStyle");
-
-        var newDayEl = $("<h5>").text(dayjs().add(i,'day').format("MM/DD/YY")).css("color", "white");
-        var newTempEl = $("<h5>").text("Temp: " + data.list[timeNum].main.temp + " °f").css("color", "white");
-        var newWindEl = $("<h5>").text("Wind: " + data.list[timeNum].wind.speed + " mph").css("color", "white");
-        var newHumEl = $("<h5>").text("Hum: "+ data.list[timeNum].main.humidity + " %").css("color", "white");
-
-        
-
-        newCardEl.append(newDayEl);
-        newCardEl.append(newTempEl);
-        newCardEl.append(newWindEl);
-        newCardEl.append(newHumEl);
-
-        $("#genCards").append(newCardEl)
-
-        timeNum += 7;
-        // generate card
-        // generate class
-        // append to #genCards
+          })
+          .then(function(data) {
+            var lat = data[0].lat;
+            resolve(lat);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+  }
+    
+    function getLon(name) {
+      return new Promise((resolve, reject) => {
+        var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+        fetch(url)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            var lon = data[0].lon;
+            resolve(lon);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+  }
+  
+  //MAIN FUNCTIONS ---------------------------------------------------------------------------------
+  function renderSearch(name, latitude, longitude){
+      if (name === ""){
+          return;
       }
+      else {
+          var newEl = $("<button>");
+          newEl.text(name);
+          newEl.attr("class", "historyBtn");
+          $("#history").append(newEl);
+          newEl.on("click", function(){
+            $("#genCards").html("");
+            renderMain(name, latitude, longitude);
+          });
+  
+      }
+      localStorage.setItem(name, JSON.stringify({lat: latitude, lon: longitude}));
+  }
+  function renderMain(name, latitude, longitude){
+      $("#main h2").text(name);
+  
+      var url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9bce6875713db412816a04531af13ead&units=imperial";
+      
+      fetch(url)
+          .then(function(response){
+              return response.json();
+          })
+          .then(function (data){
+              console.log(data);
+              $("#main h2").text(name +" " + dayjs().format('MM/DD/YY'));
+              $("#main h4").eq(0).text(data.list.weather.icon);
+              $("#main h4").eq(1).text("Temp: "+ data.main.temp + " °f");
+              $("#main h4").eq(2).text("Wind: "+ data.wind.speed + " mph");
+              $("#main h4").eq(3).text("Humidity: "+ data.main.humidity + " %");
+              renderFiveDay(name, latitude, longitude);
+          });
+  }
+  
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  function renderFiveDay(name, latitude, longitude){
+    var timeNum = 7;
+    $("#genCards").empty();
+    var url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=9bce6875713db412816a04531af13ead&units=imperial";
+    fetch(url)
+      .then(function (response){
+        return response.json();
+      })
+      .then(function(data){
+        for(var i=1; i<=5;i++){
+          
+          var newCardEl = $("<div>");
+          newCardEl.attr("class","cardElStyle");
+  
+          var newDayEl = $("<h5>").text(dayjs().add(i,'day').format("MM/DD/YY")).css("color", "white");
+          var newTempEl = $("<h5>").text("Temp: " + data.list[timeNum].main.temp + " °f").css("color", "white");
+          var newWindEl = $("<h5>").text("Wind: " + data.list[timeNum].wind.speed + " mph").css("color", "white");
+          var newHumEl = $("<h5>").text("Hum: "+ data.list[timeNum].main.humidity + " %").css("color", "white");
+  
+          
+  
+          newCardEl.append(newDayEl);
+          newCardEl.append(newTempEl);
+          newCardEl.append(newWindEl);
+          newCardEl.append(newHumEl);
+  
+          $("#genCards").append(newCardEl)
+  
+          timeNum += 7;
+          // generate card
+          // generate class
+          // append to #genCards
+        }
+      });
+  
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  searchBtnEl.on("click", async function() {
+      var inputCity = $("#inputCity").val();
+      var lat = await getLat(inputCity);
+      var lon = await getLon(inputCity);
+      renderSearch(inputCity, lat, lon);
+      renderMain(inputCity, lat, lon);
     });
-
-}
-
-searchBtnEl.on("click", async function() {
-    var inputCity = $("#inputCity").val();
-    var lat = await getLat(inputCity);
-    var lon = await getLon(inputCity);
-    renderSearch(inputCity, lat, lon);
-    renderMain(inputCity, lat, lon);
+  
+  
+  function init(){
+      displayHistory(); //displays history from local storage and appends to display div
+  } 
+  init();
+  
   });
-
-
-function init(){
-    displayHistory(); //displays history from local storage and appends to display div
-} 
-init();
-
-});
