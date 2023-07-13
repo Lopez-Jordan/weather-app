@@ -5,21 +5,26 @@ var searchBtnEl = $("#searchBtn");
 var lat;
 var long;
 
-function displayHistory(){
+function displayHistory() {
   for (var i = 0; i < localStorage.length; i++) {
     var key = localStorage.key(i);
-    var data = JSON.parse(localStorage.getItem(key))
+    var data = JSON.parse(localStorage.getItem(key));
     
-    var newEl = $("<button>");
-    newEl.text(key);
-    newEl.attr("class", "historyBtn");
-    $("#history").append(newEl);
-    newEl.on("click", async function(){
-    $("#genCards").html("");
-    var latitude = await getLat(key);
-    var longitude = await getLon(key);
-    renderMain(key, latitude, longitude);
-        });
+    (function(key) { // Create a closure for each iteration
+      var newEl = $("<button>");
+      
+      newEl.text(key);
+      newEl.attr("class", "historyBtn");
+      $("#history").append(newEl);
+      newEl.on("click", async function() {
+        $("#genCards").html("");
+        console.log("tester");
+        var latitude = await getLat(key);
+        var longitude = await getLon(key);
+        console.log("tester");
+        renderMain(key, latitude, longitude);
+      });
+    })(key); // Pass 'key' as an argument to the IIFE
   }
 }
 
