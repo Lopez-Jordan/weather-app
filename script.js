@@ -91,9 +91,8 @@ $(document).ready(function() {
               return response.json();
           })
           .then(function (data){
-              console.log(data);
-              $("#main h2").text(name +" " + dayjs().format('MM/DD/YY'));
-
+              var dateEl = dayjs().format('MM/DD/YY');
+              $("#main h2").text(name + " " + dateEl);
               var imgUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon +".png";
               var image = $('<img>').attr('src', imgUrl).attr('alt', 'Weather Icon');
               $('#main h4').first().empty();

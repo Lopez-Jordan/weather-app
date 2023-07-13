@@ -33,6 +33,9 @@ nav h1{
     border: 3px solid black;
     margin-bottom: 20px;
 }
+#main h2{
+    font-size: 30px;
+}
 #cards h3{
     margin-bottom: 10px;
 
