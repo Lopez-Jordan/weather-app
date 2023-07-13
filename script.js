@@ -5,6 +5,40 @@ var searchBtnEl = $("#searchBtn");
 var lat;
 var long;
 
+function getLat(name) {
+  return new Promise((resolve, reject) => {
+    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+    fetch(url)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var lat = data[0].lat;
+        resolve(lat);
+      })
+      .catch(function(error) {
+        reject(error);
+      });
+  });
+}
+
+function getLon(name) {
+  return new Promise((resolve, reject) => {
+    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+    fetch(url)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var lon = data[0].lon;
+        resolve(lon);
+      })
+      .catch(function(error) {
+        reject(error);
+      });
+  });
+}
+
 function displayHistory() {
   for (var i = 0; i < localStorage.length; i++) {
     var key = localStorage.key(i);
@@ -29,39 +63,6 @@ function displayHistory() {
 }
 
 
-function getLat(name) {
-    return new Promise((resolve, reject) => {
-      var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
-      fetch(url)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          var lat = data[0].lat;
-          resolve(lat);
-        })
-        .catch(function(error) {
-          reject(error);
-        });
-    });
-}
-  
-  function getLon(name) {
-    return new Promise((resolve, reject) => {
-      var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
-      fetch(url)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          var lon = data[0].lon;
-          resolve(lon);
-        })
-        .catch(function(error) {
-          reject(error);
-        });
-    });
-}
 
 //MAIN FUNCTIONS ---------------------------------------------------------------------------------
 function renderSearch(name, latitude, longitude){
@@ -138,7 +139,7 @@ function renderFiveDay(name, latitude, longitude){
     });
 
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+
 searchBtnEl.on("click", async function() {
     var inputCity = $("#inputCity").val();
     var lat = await getLat(inputCity);
