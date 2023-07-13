@@ -70,3 +70,6 @@ nav h1{
     border-bottom: 2px solid black;
     margin-bottom: 20px;
 }
+#genCards{
+    display: flex; /*FIX MAYBE */
+}
