@@ -93,7 +93,12 @@ $(document).ready(function() {
           .then(function (data){
               console.log(data);
               $("#main h2").text(name +" " + dayjs().format('MM/DD/YY'));
-              $("#main h4").eq(0).text(data.list.weather.icon);
+
+              var imgUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon +".png";
+              var image = $('<img>').attr('src', imgUrl).attr('alt', 'Weather Icon');
+              $('#main h4').first().empty();
+              $('#main h4').first().append(image);
+
               $("#main h4").eq(1).text("Temp: "+ data.main.temp + " °f");
               $("#main h4").eq(2).text("Wind: "+ data.wind.speed + " mph");
               $("#main h4").eq(3).text("Humidity: "+ data.main.humidity + " %");
@@ -113,31 +118,26 @@ $(document).ready(function() {
       })
       .then(function(data){
         for(var i=1; i<=5;i++){
-          
           var newCardEl = $("<div>");
           newCardEl.attr("class","cardElStyle");
-  
           var newDayEl = $("<h5>").text(dayjs().add(i,'day').format("MM/DD/YY")).css("color", "white");
+          var imgUrl = "https://openweathermap.org/img/wn/" + data.list[timeNum].weather[0].icon +".png";
+          var newImage = $('<img>').attr('src', imgUrl).attr('alt', 'Weather Icon');
           var newTempEl = $("<h5>").text("Temp: " + data.list[timeNum].main.temp + " °f").css("color", "white");
           var newWindEl = $("<h5>").text("Wind: " + data.list[timeNum].wind.speed + " mph").css("color", "white");
           var newHumEl = $("<h5>").text("Hum: "+ data.list[timeNum].main.humidity + " %").css("color", "white");
-  
-          
-  
           newCardEl.append(newDayEl);
+          newCardEl.append(newImage);
           newCardEl.append(newTempEl);
           newCardEl.append(newWindEl);
           newCardEl.append(newHumEl);
-  
-          $("#genCards").append(newCardEl)
-  
+          $("#genCards").append(newCardEl);
           timeNum += 7;
           // generate card
           // generate class
           // append to #genCards
         }
       });
-  
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////
   searchBtnEl.on("click", async function() {
@@ -147,8 +147,6 @@ $(document).ready(function() {
       renderSearch(inputCity, lat, lon);
       renderMain(inputCity, lat, lon);
     });
-  
-  
   function init(){
       displayHistory(); //displays history from local storage and appends to display div
   } 
