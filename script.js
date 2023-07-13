@@ -69,7 +69,7 @@ function renderMain(name, latitude, longitude){
         })
         .then(function (data){
             console.log(data);
-            $("#main h2").text(name +" " + dayjs().format('DD/MM/YY'));
+            $("#main h2").text(name +" " + dayjs().format('MM/DD/YY'));
             $("#main h4").first().text("Temp: "+ data.main.temp + " °f");
             $("#main h4").eq(1).text("Wind: "+ data.wind.speed + " mph");
             $("#main h4").eq(2).text("Humidity: "+ data.main.humidity + " %");
