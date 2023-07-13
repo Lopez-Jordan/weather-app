@@ -78,6 +78,8 @@ function renderMain(name, latitude, longitude){
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 function renderFiveDay(name, latitude, longitude){
+  var timeNum = 7;
+  $("#genCards").empty();
   var url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=9bce6875713db412816a04531af13ead&units=imperial";
   fetch(url)
     .then(function (response){
@@ -85,15 +87,25 @@ function renderFiveDay(name, latitude, longitude){
     })
     .then(function(data){
       for(var i=1; i<=5;i++){
+        
         var newCardEl = $("<div>");
-        var newDayEl = $("<h5>");
-        newDayEl.text(dayjs().add(i,'day').format("MM/DD/YY"));
+        newCardEl.attr("class","cardElStyle");
+
+        var newDayEl = $("<h5>").text(dayjs().add(i,'day').format("MM/DD/YY")).css("color", "white");
+        var newTempEl = $("<h5>").text("Temp: " + data.list[timeNum].main.temp + " °f").css("color", "white");
+        var newWindEl = $("<h5>").text("Wind: " + data.list[timeNum].wind.speed + " mph").css("color", "white");
+        var newHumEl = $("<h5>").text("Hum: "+ data.list[timeNum].main.humidity + " %").css("color", "white");
+
         
 
         newCardEl.append(newDayEl);
+        newCardEl.append(newTempEl);
+        newCardEl.append(newWindEl);
+        newCardEl.append(newHumEl);
 
         $("#genCards").append(newCardEl)
 
+        timeNum += 7;
         // generate card
         // generate class
         // append to #genCards
