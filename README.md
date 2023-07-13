@@ -8,7 +8,7 @@
 ## Technologies
     HTML/CSS/JavaScript/jQuery
     Open Weather's api: 
-    https://openweathermap.org/forecast5
+https://openweathermap.org/forecast5
 ## Credits
     Thank you to UC Berkeley Extension Full Stack course, partnered with EDX, for the starte code.
 ## Screenshot
