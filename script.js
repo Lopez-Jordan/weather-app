@@ -31,7 +31,7 @@ $(document).ready(function() {
   
   function getLat(name) {
       return new Promise((resolve, reject) => {
-        var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+        var url = "https://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
         fetch(url)
           .then(function(response) {
             return response.json();
@@ -48,7 +48,7 @@ $(document).ready(function() {
     
     function getLon(name) {
       return new Promise((resolve, reject) => {
-        var url = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
+        var url = "https://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=9bce6875713db412816a04531af13ead";
         fetch(url)
           .then(function(response) {
             return response.json();
